@@ -1,5 +1,4 @@
 def calculate_discount(price, discount):
-    # Testing function for GitFlow IDE refactor
     # Validate payload
     if not isinstance(price, (int, float)):
         print("Error: Price must be a number.")
