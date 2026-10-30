@@ -26,6 +26,9 @@ def validate_user_data(user_data):
         raise ValueError("Field 'orders_count' must be greater than zero")
 
 def calculate_user_discount(user_data):
+    # Defensive Guard: Validate input payload
+    if not isinstance(user_data, dict):
+        raise TypeError("user_data must be a valid dictionary payload")
     # Input validation and guard against null/undefined values
     validate_user_data(user_data)
 
@@ -34,7 +37,8 @@ def calculate_user_discount(user_data):
     orders_count = user_data["orders_count"]
 
     # Guard against division by zero (already validated orders_count > 0)
-    average_order_value = spend / orders_count
+    # Arithmetic Guard: ZeroDivision mitigation
+    average_order_value = (spend / orders_count) if orders_count > 0 else 0.0
 
     discount = TIER_DISCOUNTS.get(tier, 0.0)
 
